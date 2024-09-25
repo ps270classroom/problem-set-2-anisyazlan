@@ -85,7 +85,7 @@ party_incumbent_promote <- fb_ads |>
   summarise(promote_prop = mean(ad_tone_promote, na.rm = TRUE),.groups = "drop") |>
   arrange(desc(promote_prop))
 
-knitr::kable(party_incumbent_promote, col.names = c("party", "incumbency", "promote_prop"), digits = 3)
+knitr::kable(party_incumbent_promote, col.names = c("Party", "Incumbency", "Average of promotion proportions"), digits = 3)
 party_incumbent_promote
 ```
 
@@ -111,7 +111,7 @@ fb_ads <-
   fb_ads |>
   mutate(impressions_millions = (impressions /  1000000))
 
-ggplot(fb_ads, aes(x = impressions_millions)) + geom_histogram()
+plot_q3 <- ggplot(fb_ads, aes(x = impressions_millions)) + geom_histogram()
 
 fb_ads
 
@@ -142,11 +142,14 @@ You do not need to exactly match the labels, but you should have informative lab
 
 ```{r}
 
-fb_ads |>
+fb_ads <- fb_ads |>
   filter(office == "US House") |>
   arrange(impressions_millions) |>
-  slice_max(impressions_millions, n =15) |>
-  ggplot( aes(x = impressions_millions, 
+  slice_max(impressions_millions, n =15)
+
+fb_ads
+
+fb_top_plot <- ggplot(fb_ads, aes(x = impressions_millions, 
               y = fct_reorder(
                 .f = cand_name_last, 
                 impressions_millions), fill = party)) + 
@@ -154,9 +157,7 @@ fb_ads |>
   labs(title = "Top 15 House Candidate Facebook Ad Impressions, 2017-2018",
        x = "Facebook Ad Impressions (in millions)",
        y = NULL)
-
-
-
+fb_top_plot
 ```
 
 
