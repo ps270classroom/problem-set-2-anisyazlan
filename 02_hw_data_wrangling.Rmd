@@ -49,6 +49,7 @@ Use `dplyr` functions to create a table with the number of candidates in each ty
 library(dplyr)
 library(readr)
 library(tidyverse)
+library(ggplot2)
 fb_ads <- read_csv("data/fb_ads.csv")
 
 incumbency_table <- fb_ads |>
@@ -105,15 +106,15 @@ Create a histogram of this variable for just the US House races. Save the ggplot
 ## Answer 3
 
 ```{r}
-library(ggplot2)
-
 fb_ads <-
   fb_ads |>
+  filter(office == "US House") %>%
   mutate(impressions_millions = (impressions /  1000000))
 
 plot_q3 <- ggplot(fb_ads, aes(x = impressions_millions)) + geom_histogram()
 
 fb_ads
+plot_q3
 
 ```
 The histogram looked like it is very left skewed, meaning that the impressions getting are mostly no more than 10 millions impressions on facebook. 
@@ -150,13 +151,13 @@ fb_ads <- fb_ads |>
 fb_ads
 
 fb_top_plot <- ggplot(fb_ads, aes(x = impressions_millions, 
-              y = fct_reorder(
-                .f = cand_name_last, 
-                impressions_millions), fill = party)) + 
-  scale_fill_manual(values = c(R = "red", D = "blue")) + geom_col() + 
+                                  y = fct_reorder(cand_name_last, impressions_millions))) +
+  geom_col(aes(fill = party)) +  
+  scale_fill_manual(values = c(R = "red", D = "blue")) +
   labs(title = "Top 15 House Candidate Facebook Ad Impressions, 2017-2018",
        x = "Facebook Ad Impressions (in millions)",
        y = NULL)
+
 fb_top_plot
 ```
 
