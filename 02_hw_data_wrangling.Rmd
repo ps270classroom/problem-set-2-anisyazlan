@@ -109,21 +109,22 @@ Create a histogram of this variable for just the US House races. Save the ggplot
 ## Answer 3
 
 ```{r}
-fb_ads <- fb_ads |>
+fb_ads |>
   filter(office == "US House") |>
   mutate(impressions_millions = impressions / 1000000)
 
 print(fb_ads)
 
-```
-
-
-```{r}
-plot_q3 <- ggplot(fb_ads, aes(x = impressions_millions)) + geom_histogram()
+plot_q3 <- fb_ads |>
+  filter(office == "US House") |>
+  mutate(impressions_millions = impressions / 1000000) |>
+  ggplot( aes(x = impressions_millions)) + geom_histogram()
 
 plot_q3
 
 ```
+
+
 The histogram looked like it is very left skewed, meaning that the impressions getting are mostly no more than 10 millions impressions on facebook. 
 
 \newpage
@@ -152,6 +153,7 @@ You do not need to exactly match the labels, but you should have informative lab
 
 fb_ads <- fb_ads |>
   filter(office == "US House") |>
+  mutate(impressions_millions = impressions / 1000000) |>
   arrange(impressions_millions) |>
   slice_max(impressions_millions, n =15)
 
