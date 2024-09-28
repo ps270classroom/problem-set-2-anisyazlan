@@ -60,6 +60,9 @@ incumbency_table
 knitr::kable(incumbency_table)
 
 ```
+There are 2510 candidates in Challenger, 2022 in Incumbent status, and the other 2482 are holding an Open seat.
+
+
 
 
 \newpage
@@ -112,7 +115,6 @@ Create a histogram of this variable for just the US House races. Save the ggplot
 ```{r}
 fb_ads <-
   fb_ads |>
-  filter(office == "US House") |>
   mutate(impressions_millions = (impressions /  1000000))
 
 fb_ads
