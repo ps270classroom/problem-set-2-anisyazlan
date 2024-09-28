@@ -109,14 +109,16 @@ Create a histogram of this variable for just the US House races. Save the ggplot
 ## Answer 3
 
 ```{r}
-fb_ads <-
-  fb_ads |>
+fb_ads <- fb_ads |>
   filter(office == "US House") |>
-  mutate(impressions_millions = impressions/1000000)
-  
-fb_ads
+  mutate(impressions_millions = impressions / 1000000)
+
+print(fb_ads)
+
+```
 
 
+```{r}
 plot_q3 <- ggplot(fb_ads, aes(x = impressions_millions)) + geom_histogram()
 
 plot_q3
